@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const path = require("path");
 
 const pgp = require("pg-promise")(/* options */);
 //const db = pgp("postgres://biblio_select@localhost:5432/bibliography");
@@ -9,6 +10,16 @@ const cors = require("cors");
 
 const app = express();
 const PORT = 8080;
+
+// Helper for linking to external query files:
+function sql(file) {
+  const fullPath = path.join(__dirname, file);
+  return new pgp.QueryFile(fullPath, { minify: true });
+}
+
+// Es necesario crearlo aquí globalmente y no en la función concreta
+// por no sé cuestión interna...
+const sqlFindWork = sql("./sql/works.sql");
 
 app.use(bodyParser.json());
 app.use(
@@ -31,10 +42,8 @@ async function getAllWorks(request, response) {
 }
 
 async function getWorksWithTitle(request, response) {
-  const readWorks =
-    "SELECT work_id, title from vistas.vw_web_works where title ilike $1 or subtitle ilike $1 or authors ilike $1";
   const titulo = [`%${request.params.buscar}%`];
-  const rowList = await db.query(readWorks, titulo);
+  const rowList = await db.query(sqlFindWork, titulo);
   response.send(rowList);
 }
 
