@@ -35,12 +35,6 @@ async function getAllAuthors(request, response) {
   response.send(rowList);
 }
 
-async function getAllWorks(request, response) {
-  const readAllAuthors = "SELECT work_id, title from works limit 10";
-  const rowList = await db.query(readAllAuthors);
-  response.send(rowList);
-}
-
 async function getWorksWithTitle(request, response) {
   const titulo = [`%${request.params.buscar}%`];
   const rowList = await db.query(sqlFindWork, titulo);
@@ -60,7 +54,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/authors", getAllAuthors);
-app.get("/works", getAllWorks);
+//app.get("/works", getAllWorks);
 app.get("/works/:buscar", getWorksWithTitle);
 app.get("/autores/:id", getConcreteAuthor);
 
