@@ -2,7 +2,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 
 const pgp = require("pg-promise")(/* options */);
-const db = pgp("postgres://biblio_select@localhost:5432/biblio");
+//const db = pgp("postgres://biblio_select@localhost:5432/bibliography");
+const db = pgp("postgres://biblio_select:1AmMNo7hUcGe@localhost:5432/biblio");
 
 const cors = require("cors");
 
