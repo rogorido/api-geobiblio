@@ -1,6 +1,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
+const helmet = require("helmet");
+const compression = require("compression");
+const rateLimit = require("express-rate-limit");
 const morgan = require("morgan");
 const pgp = require("pg-promise")(/* options */);
 const db = pgp(
@@ -30,6 +33,16 @@ app.use(
 );
 app.use(morgan("tiny"));
 // app.use(cors());
+
+app.use(compression());
+app.use(helmet());
+
+const limiter = rateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 5 // 5 requests,
+});
+
+app.use(limiter);
 
 app.use(
   cors({
