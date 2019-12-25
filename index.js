@@ -9,11 +9,11 @@ const pgp = require("pg-promise")(/* options */);
 const db = pgp(
   "postgres://biblio_select:1AmMNo7hUcGe@localhost:5432/bibliography"
 );
+require("dotenv").config();
 
 const cors = require("cors");
 
 const app = express();
-const PORT = 8080;
 
 // Helper for linking to external query files:
 function sql(file) {
@@ -136,6 +136,6 @@ app.get("/authors", getAllAuthors);
 app.get("/works/:buscar", getWorksWithTitle);
 app.get("/autores/:id", getConcreteAuthor);
 
-app.listen(PORT, () => {
-  console.log(`Server está en http://localhost:${PORT}/authors`);
+app.listen(process.env.PORT, () => {
+  console.log(`Server está en http://localhost:${process.env.PORT}/authors`);
 });
