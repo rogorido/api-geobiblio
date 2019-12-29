@@ -112,16 +112,6 @@ async function getWorksWithTitle(request, response) {
   const titulo = [`%${request.params.buscar}%`];
   const rowList = await db.query(sqlFindWork, titulo);
 
-  // response.setHeader("Access-Control-Allow-Origin", "*");
-  // response.setHeader(
-  //   "Access-Control-Allow-Methods",
-  //   "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-  // ); // If needed
-  // response.setHeader(
-  //   "Access-Control-Allow-Headers",
-  //   "X-Requested-With,content-type"
-  // ); // If needed
-
   response.send(rowList);
 }
 
