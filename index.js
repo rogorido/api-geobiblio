@@ -127,6 +127,9 @@ async function getWorksWithTitle(request, response) {
 
 async function getWorksWithCategories(request, response) {
   let rowList = [];
+
+  // we check if the URL has a query with cat=X or not.
+  // if not, we return all categories for use in the select component.
   if (Object.keys(request.query).length === 0) {
     const allCategories =
       "SELECT category_id, category FROM categories ORDER BY category";
