@@ -25,6 +25,7 @@ function sql(file) {
 // por no sé cuestión interna...
 // const sqlFindWork = sql("./sql/works.sql");
 const sqlFindWork = sql("./sql/worksglobal.sql");
+const sqlFindWorkPerCategory = sql("./sql/workspercategory.sql");
 
 app.use(bodyParser.json());
 app.use(
@@ -124,6 +125,22 @@ async function getWorksWithTitle(request, response) {
   response.send(rowList);
 }
 
+async function getWorksWithCategories(request, response) {
+  let rowList = [];
+  if (Object.keys(request.query).length === 0) {
+    const allCategories =
+      "SELECT category_id, category FROM categories ORDER BY category";
+    rowList = await db.query(allCategories);
+  } else {
+    let cats = Array.isArray(request.query.cat)
+      ? request.query.cat.join(",")
+      : request.query.cat;
+
+    rowList = await db.query(sqlFindWorkPerCategory, cats);
+  }
+  response.send(rowList);
+}
+
 async function getConcreteAuthor(request, response) {
   console.log(request.params);
   const readAllAuthors =
@@ -135,6 +152,7 @@ async function getConcreteAuthor(request, response) {
 app.get("/authors", getAllAuthors);
 //app.get("/works", getAllWorks);
 app.get("/works/:buscar", getWorksWithTitle);
+app.get("/categories/", getWorksWithCategories);
 app.get("/autores/:id", getConcreteAuthor);
 
 app.listen(process.env.PORT, () => {
