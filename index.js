@@ -122,7 +122,7 @@ async function getWorksWithCategories(request, response) {
   // if not, we return all categories for use in the select component.
   if (Object.keys(request.query).length === 0) {
     const allCategories =
-      "SELECT category_id, category FROM categories ORDER BY category";
+      "SELECT category_id as value, category as label FROM categories ORDER BY category";
     rowList = await db.query(allCategories);
   } else {
     let cats = Array.isArray(request.query.cat)
