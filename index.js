@@ -23,7 +23,8 @@ function sql(file) {
 
 // Es necesario crearlo aquí globalmente y no en la función concreta
 // por no sé cuestión interna...
-const sqlFindWork = sql("./sql/works.sql");
+// const sqlFindWork = sql("./sql/works.sql");
+const sqlFindWork = sql("./sql/worksglobal.sql");
 
 app.use(bodyParser.json());
 app.use(
