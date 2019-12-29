@@ -14,6 +14,7 @@ require("dotenv").config();
 const cors = require("cors");
 
 const app = express();
+app.use(morgan("tiny"));
 
 // Helper for linking to external query files:
 function sql(file) {
@@ -33,8 +34,6 @@ app.use(
     extended: true
   })
 );
-app.use(morgan("tiny"));
-// app.use(cors());
 
 app.use(compression());
 app.use(helmet());
@@ -51,62 +50,6 @@ app.use(
     origin: ["https://beta.georeligion.org", "http://localhost:8000"]
   })
 );
-
-// app.options("*", function(req, res) {
-//   res.setHeader("Access-Control-Allow-Origin", "*");
-//   res.setHeader("Access-Control-Allow-Methods", "*");
-//   res.setHeader("Access-Control-Allow-Headers", "*");
-//   res.end();
-// });
-
-// app.use(
-//   cors({
-//     origin: myorigin.tld,
-//     allowedHeaders: [
-//       "Accept-Version",
-//       "Authorization",
-//       "Credentials",
-//       "Content-Type"
-//     ]
-//   })
-// );
-
-//app.options("*", cors());
-//app.use(cors());
-
-// app.use(function(req, res, next) {
-//   res.setHeader("Access-Control-Allow-Origin", "*");
-//   res.setHeader(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Content-Type, Accept"
-//   );
-//   next();
-// });
-
-// var allowedOrigins = ["http://localhost:8000", "https://beta.georeligion.org"];
-
-// app.use(
-//   cors({
-//     origin: function(origin, callback) {
-//       // allow requests with no origin
-//       // (like mobile apps or curl requests)
-//       if (!origin) return callback(null, true);
-//       if (allowedOrigins.indexOf(origin) === -1) {
-//         var msg =
-//           "The CORS policy for this site does not " +
-//           "allow access from the specified Origin.";
-//         return callback(new Error(msg), false);
-//       }
-//       return callback(null, true);
-//     }
-//   })
-// );
-
-async function getAllAuthors(request, response) {
-  const readAllAuthors = "SELECT author_id, author_name from authors limit 10";
-  const rowList = await db.query(readAllAuthors);
-  response.send(rowList);
-}
 
 async function getWorksWithTitle(request, response) {
   const titulo = [`%${request.params.buscar}%`];
@@ -134,20 +77,9 @@ async function getWorksWithCategories(request, response) {
   response.send(rowList);
 }
 
-async function getConcreteAuthor(request, response) {
-  console.log(request.params);
-  const readAllAuthors =
-    "SELECT author_id, author_name from authors where author_id = $1";
-  const rowList = await db.query(readAllAuthors, request.params.id);
-  response.send(rowList);
-}
-
-app.get("/authors", getAllAuthors);
-//app.get("/works", getAllWorks);
 app.get("/works/:buscar", getWorksWithTitle);
 app.get("/categories/", getWorksWithCategories);
-app.get("/autores/:id", getConcreteAuthor);
 
 app.listen(process.env.PORT, () => {
-  console.log(`Server está en http://localhost:${process.env.PORT}/authors`);
+  console.log(`Server está en http://localhost:${process.env.PORT}/`);
 });
