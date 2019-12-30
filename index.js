@@ -70,16 +70,16 @@ async function getWorks(request, response) {
   let rowList = [];
 
   // there are no terms, only cats
-  if (!request.query.terms && request.query.cat) {
+  if (!request.query.term && request.query.cat) {
     let cats = Array.isArray(request.query.cat)
       ? request.query.cat.join(",")
       : request.query.cat;
 
     rowList = await db.query(sqlFindWorkPerCategory, cats);
-  } else if (!request.query.cat && request.query.terms) {
-    let terms = Array.isArray(request.query.terms)
-      ? request.query.terms.join(":*&")
-      : request.query.terms;
+  } else if (!request.query.cat && request.query.term) {
+    let terms = Array.isArray(request.query.term)
+      ? request.query.term.join(":*&")
+      : request.query.term;
 
     // we need to add at the end :*
     terms = `${terms}:*`;
@@ -91,9 +91,9 @@ async function getWorks(request, response) {
       ? request.query.cat.join(",")
       : request.query.cat;
 
-    let terms = Array.isArray(request.query.terms)
-      ? request.query.terms.join(":*&")
-      : request.query.terms;
+    let terms = Array.isArray(request.query.term)
+      ? request.query.term.join(":*&")
+      : request.query.term;
 
     // we need to add at the end :*
     terms = `${terms}:*`;
