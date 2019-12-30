@@ -77,7 +77,12 @@ async function getWorks(request, response) {
 
     rowList = await db.query(sqlFindWorkPerCategory, cats);
   } else if (!request.query.cat && request.query.terms) {
-    let terms = `${request.query.terms}:*`;
+    let terms = Array.isArray(request.query.terms)
+      ? request.query.terms.join(":*&")
+      : request.query.terms;
+
+    // we need to add at the end :*
+    terms = `${terms}:*`;
     console.log(terms);
     rowList = await db.query(sqlFindWork, terms);
   } else {
