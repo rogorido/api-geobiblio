@@ -27,6 +27,7 @@ function sql(file) {
 // const sqlFindWork = sql("./sql/works.sql");
 const sqlFindWork = sql("./sql/worksglobal.sql");
 const sqlFindWorkPerCategory = sql("./sql/workspercategory.sql");
+const sqlFindWorkTermsCats = sql("./sql/workstermscats.sql");
 
 app.use(bodyParser.json());
 app.use(
@@ -58,27 +59,46 @@ async function getWorksWithTitle(request, response) {
   response.send(rowList);
 }
 
-async function getWorksWithCategories(request, response) {
+async function getCategories(request, response) {
+  const allCategories =
+    "SELECT category_id as value, category as label FROM categories ORDER BY category";
+  const rowList = await db.query(allCategories);
+  response.send(rowList);
+}
+
+async function getWorks(request, response) {
   let rowList = [];
 
-  // we check if the URL has a query with cat=X or not.
-  // if not, we return all categories for use in the select component.
-  if (Object.keys(request.query).length === 0) {
-    const allCategories =
-      "SELECT category_id as value, category as label FROM categories ORDER BY category";
-    rowList = await db.query(allCategories);
-  } else {
+  // there are no terms, only cats
+  if (!request.query.terms && request.query.cat) {
     let cats = Array.isArray(request.query.cat)
       ? request.query.cat.join(",")
       : request.query.cat;
 
     rowList = await db.query(sqlFindWorkPerCategory, cats);
+  } else if (!request.query.cat && request.query.terms) {
+    let terms = [`%${request.query.terms}%`];
+    console.log(terms);
+    rowList = await db.query(sqlFindWork, terms);
+  } else {
+    // terms and cats
+
+    let cats = Array.isArray(request.query.cat)
+      ? request.query.cat.join(",")
+      : request.query.cat;
+
+    let terms = `%${request.query.terms}%`;
+
+    let valuestopass = [terms, cats];
+
+    rowList = await db.query(sqlFindWorkTermsCats, valuestopass);
   }
   response.send(rowList);
 }
 
 app.get("/works/:buscar", getWorksWithTitle);
-app.get("/categories/", getWorksWithCategories);
+app.get("/categories/", getCategories);
+app.get("/search/", getWorks);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server está en http://localhost:${process.env.PORT}/`);
