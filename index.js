@@ -83,7 +83,6 @@ async function getWorks(request, response) {
 
     // we need to add at the end :*
     terms = `${terms}:*`;
-    console.log(terms);
     rowList = await db.query(sqlFindWork, terms);
   } else {
     // terms and cats
@@ -92,7 +91,12 @@ async function getWorks(request, response) {
       ? request.query.cat.join(",")
       : request.query.cat;
 
-    let terms = `${request.query.terms}:*`;
+    let terms = Array.isArray(request.query.terms)
+      ? request.query.terms.join(":*&")
+      : request.query.terms;
+
+    // we need to add at the end :*
+    terms = `${terms}:*`;
 
     let valuestopass = [terms, cats];
 
