@@ -2,4 +2,4 @@
 
 SELECT * 
 FROM vistas.vw_web_works
-where searchterms ilike $1;
+WHERE to_tsquery('simple', $1) @@ searchterms;
