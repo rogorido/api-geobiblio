@@ -2,4 +2,4 @@
 
 SELECT * 
 FROM vistas.vw_web_works
-WHERE to_tsquery('simple', $1) @@ searchterms;
+WHERE to_tsquery('simple', unaccent($1)) @@ searchterms;
