@@ -17,13 +17,6 @@ const sqlFindWork = sql("../sql/worksglobal.sql");
 const sqlFindWorkPerCategory = sql("../sql/workspercategory.sql");
 const sqlFindWorkTermsCats = sql("../sql/workstermscats.sql");
 
-async function getWorksWithTitle(request, response) {
-  const titulo = [`%${request.params.buscar}%`];
-  const rowList = await db.query(sqlFindWork, titulo);
-
-  response.send(rowList);
-}
-
 async function getCategories(request, response) {
   const allCategories =
     "SELECT category_id as value, category as label FROM categories ORDER BY category";
@@ -70,4 +63,4 @@ async function getWorks(request, response) {
   response.send(rowList);
 }
 
-module.exports = { getWorksWithTitle, getCategories, getWorks };
+module.exports = { getCategories, getWorks };

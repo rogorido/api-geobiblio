@@ -35,7 +35,6 @@ app.use(
   })
 );
 
-app.get("/works/:buscar", dbFunctions.getWorksWithTitle);
 app.get("/categories/", dbFunctions.getCategories);
 app.get("/search/", dbFunctions.getWorks);
 
