@@ -31,7 +31,7 @@ app.use(limiter);
 
 app.use(
   cors({
-    origin: ["https://beta.georeligion.org", "http://localhost:8000"]
+    origin: ["https://www.georeligion.org", "https://dbg.georeligion.org", "http://localhost:8000"]
   })
 );
 
