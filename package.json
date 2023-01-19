@@ -1,6 +1,6 @@
 {
   "name": "geobiblio",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "API for the database georeligious bibliography",
   "main": "index.js",
   "scripts": {
