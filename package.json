@@ -1,6 +1,6 @@
 {
   "name": "pg-node",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "API for the database georeligious bibliography",
   "main": "index.js",
   "scripts": {
