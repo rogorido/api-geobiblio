@@ -1,23 +1,28 @@
 {
   "name": "pg-node",
   "version": "1.1.0",
-  "description": "",
+  "description": "API for the database georeligious bibliography",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node main.js",
+    "dev": "nodemon -e js,sql,json main.js"
   },
   "author": "Igor Sosa Mayor <joseleopoldo1792@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "bluebird": "^3.7.2",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
-    "dotenv": "^8.2.0",
+    "dotenv": "^16.0.3",
     "express": "^4.17.1",
     "express-rate-limit": "^5.1.3",
     "helmet": "^4.1.1",
     "morgan": "^1.10.0",
-    "pg": "^8.3.3",
-    "pg-promise": "^10.6.1"
+    "pg": "^8.8.0",
+    "pg-monitor": "^2.0.0",
+    "pg-promise": "^11.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
   }
 }
