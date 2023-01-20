@@ -1,0 +1,8 @@
+# get all categories
+GET http://localhost:8003/categories
+
+# should give an error 
+GET http://localhost:8003/conquistar
+
+
+
