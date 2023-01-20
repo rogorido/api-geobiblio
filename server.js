@@ -69,4 +69,13 @@ app.get("/", (req, res) => {
 app.get("/categories/", dbFunctions.getCategories);
 app.get("/search/", dbFunctions.getWorks);
 
+// https://stackoverflow.com/questions/44539210/express-js-handle-unmached-routes
+// see also
+// https://www.geeksforgeeks.org/node-js-handling-invalid-routes/
+app.use(function (req, res, next) {
+  res.status(404);
+  res.json({ status: 404, title: "Not Found", msg: "Route not found" });
+  next();
+});
+
 module.exports = app;
