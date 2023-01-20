@@ -4,5 +4,20 @@ GET http://localhost:8003/categories
 # should give an error 
 GET http://localhost:8003/conquistar
 
+# only terms
+GET http://localhost:8003/search/?term=global
+
+# only cats 
+GET http://localhost:8003/search/?cat=231&cat=232
+
+# tetrms and cats 
+GET http://localhost:8003/search/?term=global&cat=159
+
+# should give an error 
+GET http://localhost:8003/search/?cat&cat=232
+
+
+
+
 
 

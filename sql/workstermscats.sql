@@ -2,7 +2,7 @@
 
 SELECT * 
 FROM vistas.vw_web_works
-WHERE (to_tsquery('simple', unaccent($1)) @@ searchterms)
+WHERE (to_tsquery('simple', vistas.unaccent($1)) @@ searchterms)
       AND work_id IN
       (SELECT work_id FROM works_categories
        WHERE category_id IN ($2:raw));
