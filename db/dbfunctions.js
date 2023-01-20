@@ -24,7 +24,7 @@ async function getCategories(req, res) {
   }
 }
 
-async function getWorks(request, response) {
+async function getWorks(request, res) {
   let rowList = [];
 
   // there are no terms, only cats
@@ -33,7 +33,13 @@ async function getWorks(request, response) {
       ? request.query.cat.join(",")
       : request.query.cat;
 
-    rowList = await db.query(sqlFindWorkPerCategory, cats);
+    try {
+      rowList = await db.query(sqlFindWorkPerCategory, cats);
+      res.send(rowList);
+    } catch (err) {
+      console.log(err);
+      res.status(400).send(err);
+    }
   } else if (!request.query.cat && request.query.term) {
     let terms = Array.isArray(request.query.term)
       ? request.query.term.join(":*&")
@@ -41,10 +47,15 @@ async function getWorks(request, response) {
 
     // we need to add at the end :*
     terms = `${terms}:*`;
-    rowList = await db.query(sqlFindWork, terms);
+    try {
+      rowList = await db.query(sqlFindWork, terms);
+      res.send(rowList);
+    } catch (err) {
+      console.log(err);
+      res.status(400).send(err);
+    }
   } else {
     // terms and cats
-
     let cats = Array.isArray(request.query.cat)
       ? request.query.cat.join(",")
       : request.query.cat;
@@ -57,10 +68,14 @@ async function getWorks(request, response) {
     terms = `${terms}:*`;
 
     let valuestopass = [terms, cats];
-
-    rowList = await db.query(sqlFindWorkTermsCats, valuestopass);
+    try {
+      rowList = await db.query(sqlFindWorkTermsCats, valuestopass);
+      res.send(rowList);
+    } catch (err) {
+      console.log(err);
+      res.status(400).send(err);
+    }
   }
-  response.send(rowList);
 }
 
 module.exports = { getCategories, getWorks };
