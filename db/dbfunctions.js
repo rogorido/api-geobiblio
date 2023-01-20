@@ -9,16 +9,14 @@ function sql(file) {
 
 // Es necesario crearlo aquí globalmente y no en la función concreta
 // por no sé cuestión interna...
-// const sqlFindWork = sql("./sql/works.sql");
 const sqlFindWork = sql("../sql/worksglobal.sql");
 const sqlFindWorkPerCategory = sql("../sql/workspercategory.sql");
 const sqlFindWorkTermsCats = sql("../sql/workstermscats.sql");
+const sqlAllCategories = sql("../sql/allcategories.sql");
 
 async function getCategories(req, res) {
-  const allCategories =
-    "SELECT category_id as value, category as label FROM categories ORDER BY category";
   try {
-    const rowList = await db.many(allCategories);
+    const rowList = await db.many(sqlAllCategories);
     res.send(rowList);
   } catch (err) {
     console.log(err);
