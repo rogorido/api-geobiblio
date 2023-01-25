@@ -1,6 +1,6 @@
 -- select of categories for the input box
 
 SELECT category_id as VALUE,
-       category as LABEL
+       LOWER(category) as label
 FROM categories
 ORDER BY category;

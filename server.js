@@ -49,7 +49,8 @@ app.use(limiter);
 app.use(
   cors({
     origin: [
-      "https://dominicans.georeligion.org",
+      "https://georeligion.org",
+      "https://www.georeligion.org",
       "http://localhost:8000",
       "http://localhost:3000",
       "http://localhost:9000",
