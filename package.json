@@ -1,6 +1,6 @@
 {
   "name": "geobiblio",
-  "version": "2.2.3",
+  "version": "2.2.4",
   "description": "API for the database georeligious bibliography",
   "main": "index.js",
   "scripts": {
@@ -20,7 +20,7 @@
     "morgan": "^1.10.0",
     "pg": "^8.9.0",
     "pg-monitor": "^2.0.0",
-    "pg-promise": "^11.2.0"
+    "pg-promise": "^11.3.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"
